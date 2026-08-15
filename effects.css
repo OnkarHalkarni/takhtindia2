@@ -1,0 +1,395 @@
+/* ==========================================================================
+   TAKHT INDIA - Enhanced Luxury Design, Shadows & Effects System
+   ========================================================================== */
+
+:root {
+  --gold-primary: #f2c230;
+  --gold-light: #ffd966;
+  --gold-dark: #b8860b;
+  --gold-glow: rgba(242, 194, 48, 0.35);
+  --gold-subtle: rgba(242, 194, 48, 0.12);
+  --navy-deep: #060919;
+  --navy-dark: #0a0e27;
+  --navy-surface: #0d1330;
+  --navy-card: #121942;
+  --navy-card-hover: #172054;
+  --navy-glow: rgba(18, 25, 66, 0.6);
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --border-gold-glass: rgba(242, 194, 48, 0.25);
+  --shadow-elevation-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-elevation-md: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(242, 194, 48, 0.05);
+  --shadow-elevation-lg: 0 20px 50px -10px rgba(0, 0, 0, 0.65), 0 0 30px rgba(242, 194, 48, 0.12);
+  --shadow-gold-glow: 0 0 25px rgba(242, 194, 48, 0.4), 0 0 50px rgba(242, 194, 48, 0.15);
+  --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   Smooth Scrolling & Custom Scrollbar
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--navy-deep);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060919;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1f2963 0%, #f2c230 100%);
+  border-radius: 9999px;
+  border: 2px solid #060919;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2b398a 0%, #ffd966 100%);
+}
+
+/* Selection Color */
+::selection {
+  background: rgba(242, 194, 48, 0.3);
+  color: #fff;
+}
+
+/* ==========================================================================
+   Ambient Background Lighting & Mesh Accents
+   ========================================================================== */
+body {
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--navy-deep);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(242, 194, 48, 0.08) 0%, rgba(18, 25, 66, 0.25) 45%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientFloat 14s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 10%;
+  right: -10%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(242, 194, 48, 0.05) 0%, rgba(30, 41, 107, 0.15) 50%, transparent 70%);
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientFloat2 18s ease-in-out infinite alternate;
+}
+
+@keyframes ambientFloat {
+  0% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-40%) translateY(120px) scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes ambientFloat2 {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-80px) scale(1.2);
+    opacity: 0.9;
+  }
+}
+
+/* ==========================================================================
+   Header & Navigation Styling
+   ========================================================================== */
+header, nav {
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  transition: var(--transition-smooth);
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(242, 194, 48, 0.4) 50%, transparent 100%);
+}
+
+/* ==========================================================================
+   Card Styling, Glassmorphism & Depth Shadows
+   ========================================================================== */
+/* Generic interactive cards & containers */
+.bg-\[\#121942\],
+.bg-\[\#0d1330\],
+.bg-\[\#0d1436\],
+div[class*="bg-[#121942]"],
+div[class*="bg-[#0d1436]"],
+div[class*="rounded-2xl"],
+div[class*="rounded-3xl"],
+article {
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+/* Cards hover elevation */
+div[class*="bg-[#121942]"]:hover,
+div[class*="rounded-3xl"].border:hover,
+div[class*="rounded-2xl"].border:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.75), 0 0 25px rgba(242, 194, 48, 0.18) !important;
+  border-color: rgba(242, 194, 48, 0.45) !important;
+}
+
+/* Specific styling for Tilt cards & Approach/Operations cards */
+div[class*="rounded-3xl"][class*="border-white"] {
+  background: linear-gradient(145deg, rgba(24, 32, 84, 0.85) 0%, rgba(13, 19, 48, 0.95) 100%) !important;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+}
+
+/* War Room / Stats Display Cards */
+div[class*="border-white/15"][class*="bg-gradient-to-b"] {
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(242, 194, 48, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.25) !important;
+  border: 1px solid rgba(242, 194, 48, 0.3) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+div[class*="border-white/15"][class*="bg-gradient-to-b"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(242, 194, 48, 0.08), transparent);
+  transform: skewX(-25deg);
+  animation: shineGlow 8s infinite;
+  pointer-events: none;
+}
+
+@keyframes shineGlow {
+  0% { left: -100%; }
+  25% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* ==========================================================================
+   Trusted By & Client Cards Styling
+   ========================================================================== */
+.grid div[class*="hover:text-[#f2c230]"] {
+  background: linear-gradient(135deg, #10163a 0%, #0d1230 100%) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  transition: var(--transition-bounce);
+  letter-spacing: 0.02em;
+}
+
+.grid div[class*="hover:text-[#f2c230]"]:hover {
+  transform: translateY(-6px) scale(1.03) !important;
+  background: linear-gradient(135deg, #161e4f 0%, #11183d 100%) !important;
+  box-shadow: 0 16px 35px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(242, 194, 48, 0.3) !important;
+  border-color: rgba(242, 194, 48, 0.6) !important;
+  color: #f2c230 !important;
+}
+
+/* ==========================================================================
+   Interactive Buttons & Shimmer Effects
+   ========================================================================== */
+button,
+a[class*="bg-[#f2c230]"],
+button[class*="bg-[#f2c230]"],
+a[class*="inline-flex"][class*="rounded-"] {
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+/* Gold Primary Button Luxury Glow */
+a[class*="bg-[#f2c230]"],
+button[class*="bg-[#f2c230]"],
+.bg-\[\#f2c230\] {
+  box-shadow: 0 8px 25px -4px rgba(242, 194, 48, 0.5), 0 0 15px rgba(242, 194, 48, 0.3) !important;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+a[class*="bg-[#f2c230]"]:hover,
+button[class*="bg-[#f2c230]"]:hover,
+.bg-\[\#f2c230\]:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 35px -3px rgba(242, 194, 48, 0.7), 0 0 25px rgba(242, 194, 48, 0.5) !important;
+}
+
+/* Secondary & Ghost Buttons */
+button[class*="border-white"],
+a[class*="border-white"] {
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+button[class*="border-white"]:hover,
+a[class*="border-white"]:hover {
+  border-color: rgba(242, 194, 48, 0.6) !important;
+  background-color: rgba(242, 194, 48, 0.12) !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45), 0 0 15px rgba(242, 194, 48, 0.25);
+}
+
+/* Shimmer Sweep Effect on Buttons */
+a[class*="bg-[#f2c230]"]::after,
+button[class*="bg-[#f2c230]"]::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  transition: none;
+  animation: buttonSweep 4.5s cubic-bezier(0.19, 1, 0.22, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes buttonSweep {
+  0% { left: -60%; }
+  35% { left: 140%; }
+  100% { left: 140%; }
+}
+
+/* ==========================================================================
+   Images, Portfolio & Visual Media
+   ========================================================================== */
+img {
+  transition: var(--transition-smooth);
+}
+
+/* Media Cards Hover Glow & Zoom */
+div[class*="group"][class*="relative"] img,
+div[class*="overflow-hidden"] img {
+  transform: scale(1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+
+div[class*="group"][class*="relative"]:hover img,
+div[class*="overflow-hidden"]:hover img {
+  transform: scale(1.05);
+}
+
+/* Portfolio Cards Frame */
+#work div[class*="rounded-"] {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+#work div[class*="rounded-"]:hover {
+  box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(242, 194, 48, 0.25) !important;
+}
+
+/* ==========================================================================
+   Form Inputs & Interactive Fields
+   ========================================================================== */
+input,
+textarea,
+select {
+  background: rgba(13, 19, 48, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-smooth) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #f2c230 !important;
+  box-shadow: 0 0 0 3px rgba(242, 194, 48, 0.25), 0 8px 25px rgba(0, 0, 0, 0.6) !important;
+  background: rgba(18, 25, 66, 0.95) !important;
+  outline: none !important;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Badges, Pills & Status Elements
+   ========================================================================== */
+span[class*="tracking-"][class*="uppercase"][class*="text-[#f2c230]"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 0 12px rgba(242, 194, 48, 0.5);
+  font-weight: 700;
+  letter-spacing: 0.35em !important;
+}
+
+/* Pulsing Status Lights */
+.animate-ping {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Hero & Big Headings Polish
+   ========================================================================== */
+h1, h2, h3 {
+  letter-spacing: -0.01em;
+}
+
+/* Gold Gradient Text Enhancement */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #fff3c4 0%, #f2c230 50%, #dfa212 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  filter: drop-shadow(0 2px 8px rgba(242, 194, 48, 0.3));
+}
+
+/* CTA Band Section Enhancement */
+section[data-testid="cta-band"] {
+  position: relative;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8) inset, 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Footer Accent Top Border */
+footer#contact {
+  border-top: 1px solid rgba(242, 194, 48, 0.2);
+  box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   Marquee & Ticker Polish
+   ========================================================================== */
+[data-testid="marquee-track"] span,
+div[class*="overflow-hidden"] span[class*="font-mono"] {
+  text-shadow: 0 0 8px rgba(242, 194, 48, 0.3);
+}

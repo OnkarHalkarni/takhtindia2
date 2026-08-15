@@ -5740,7 +5740,7 @@ const PORTFOLIO = [{
   cat: "Municipal",
   img: "https://images.unsplash.com/photo-1627894484319-b91767570a21?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"
 }];
-const CLIENTS = ["TPLC Business Group", "Creative Events", "Anokha", "Kalyanshetti Associates", "Loksamvad", "Cake Shop"];
+const CLIENTS = ["TPLC Business Group", "Creative Events", "Anokha", "Kalyanshetti Associates", "Loksamvad"];
 const QUOTE = "Political strategy is the art of planning to achieve good objectives and goals designed in a proper manner to gain power.";
 const NAV = [{
   id: "home",
