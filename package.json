@@ -1,0 +1,9 @@
+{
+  "name": "takhtindia",
+  "version": "1.0.0",
+  "description": "TAKHT INDIA — Political Intelligence & Campaign Strategy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
