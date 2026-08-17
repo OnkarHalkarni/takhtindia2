@@ -11,8 +11,8 @@
   const section = (id, eyebrow, title, content) => `<section id="${id}" class="ti-section"><div class="ti-shell"><p class="ti-eyebrow">${eyebrow}</p><h2>${title}</h2>${content}</div></section>`;
 
   function addLogoDots() {
-    document.querySelectorAll('header a, nav a').forEach((link) => {
-      if (!/takht\s*india/i.test(link.textContent || '') || link.querySelector('.ti-logo-dots')) return;
+    document.querySelectorAll('[data-testid="nav-logo"], header a, header button, nav a, nav button').forEach((link) => {
+      if (link.querySelector('.ti-logo-dots')) return;
       const dots = document.createElement('span');
       dots.className = 'ti-logo-dots'; dots.setAttribute('aria-label', 'Indian tricolor');
       dots.innerHTML = '<i class="saffron"></i><i class="white"></i><i class="green"></i>'; link.appendChild(dots);
@@ -54,6 +54,15 @@
       const founderBlock = document.createElement('div'); founderBlock.className = 'ti-about-founder';
       founderBlock.innerHTML = `<div><p class="ti-eyebrow">THE FOUNDER</p><h3>${esc(CONTENT.founderName) || 'Founder name'}</h3><p>${esc(CONTENT.founderBio) || 'Founder information will be added here.'}</p></div>${image(CONTENT.founderImage, CONTENT.founderName || 'Founder portrait', 'Founder image')}`;
       about.appendChild(founderBlock);
+    }
+    root.querySelectorAll('*').forEach((node) => {
+      if (node.children.length === 0 && /288\+/.test(node.textContent || '')) node.textContent = '12+';
+      if (node.children.length === 0 && /94\.8%/.test(node.textContent || '')) node.textContent = '82.4%';
+    });
+    const heroPills = root.querySelector('.mt-6.flex.flex-wrap.gap-2') || [...root.querySelectorAll('div')].find((node) => /Social MediaWar Room ManagementCampaignElection SurveyStrategyDocumentary/i.test(node.textContent || '') && node.children.length === 6);
+    if (heroPills) {
+      const labels = ['Strategy', 'War Room Management', 'Campaign', 'Social Media', 'Election Survey', 'Documentary'];
+      heroPills.innerHTML = labels.map((label) => `<span class="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-slate-300">${label}</span>`).join('');
     }
     const services = root.querySelector('#services');
     if (services) {
