@@ -54,10 +54,12 @@
     const quote = section('principle', 'OUR PRINCIPLE', CONTENT.quote ? `“${esc(CONTENT.quote)}”` : 'Clarity before noise', `<blockquote>${esc(CONTENT.quote) || 'A point of view, a grounded plan, and the discipline to see it through.'}</blockquote>`);
     const certs = CONTENT.certificates.length ? CONTENT.certificates.map((item) => `<article class="ti-card">${image(item.image, item.title || 'Certificate', 'Certificate image')}<h3>${esc(item.title)}</h3><p>${esc(item.issuer)}</p></article>`).join('') : `<article class="ti-card">${placeholder('Certificate')}</article><article class="ti-card">${placeholder('Certificate')}</article>`;
     const gallery = CONTENT.gallery.length ? CONTENT.gallery.map((item) => `<button class="ti-gallery-item" type="button" data-lightbox="${esc(item.image)}" aria-label="Open ${esc(item.title || 'gallery image')}">${image(item.image, item.title || 'Gallery image', 'Gallery image')}<span>${esc(item.title)}</span></button>`).join('') : `<div class="ti-card">${placeholder('Campaign gallery')}</div><div class="ti-card">${placeholder('Campaign gallery')}</div><div class="ti-card">${placeholder('Campaign gallery')}</div>`;
-    const work = section('work', 'SELECTED WORK', 'Proof will live here', `<div class="ti-grid">${certs}</div><div class="ti-gallery">${gallery}</div>`);
+    const certificates = section('certificates', 'CREDENTIALS', 'Certificates and credentials', `<div class="ti-grid">${certs}</div>`);
+    const gallerySection = section('gallery', 'FIELD NOTES', 'Campaign gallery', `<div class="ti-gallery">${gallery}</div>`);
     const contact = section('contact-details', 'START A CONVERSATION', 'The next move starts here', `<div class="ti-contact"><div><p>${esc(CONTENT.contactPhone) || 'Phone details will be added here.'}</p><p>${esc(CONTENT.contactEmail) || 'Email details will be added here.'}</p><p>${esc(CONTENT.contactAddress) || 'Office address will be added here.'}</p></div><div class="ti-social"><a href="${esc(CONTENT.instagramUrl) || '#'}" aria-label="Instagram">Instagram</a><a href="${esc(CONTENT.facebookUrl) || '#'}" aria-label="Facebook">Facebook</a></div></div>`);
-    wrap.innerHTML = stats + founder + political + quote + work + contact;
+    wrap.innerHTML = stats + founder + political + quote + certificates + gallerySection + contact;
     root.appendChild(wrap);
+    updateExistingSections(root, wrap);
     wrap.addEventListener('click', (event) => {
       const target = event.target.closest('[data-lightbox]');
       if (!target || !target.dataset.lightbox) return;
@@ -67,6 +69,38 @@
       document.body.appendChild(modal);
       modal.addEventListener('click', () => modal.remove());
     });
+  }
+
+  function updateExistingSections(root, wrap) {
+    // Keep one contact section: the enhancement contact block replaces the original form/contact block.
+    root.querySelectorAll('#contact, [data-testid="contact-section"]').forEach((node) => node.remove());
+
+    const about = root.querySelector('#about');
+    if (about && !about.querySelector('.ti-about-founder')) {
+      const tagline = [...about.querySelectorAll('p, h1, h2, h3')].find((node) => /found|intelligence|strategy|campaign/i.test(node.textContent || ''));
+      const founderBlock = document.createElement('div');
+      founderBlock.className = 'ti-about-founder';
+      founderBlock.innerHTML = `<div><p class="ti-eyebrow">THE FOUNDER</p><h3>${esc(CONTENT.founderName) || 'Founder information'}</h3><p>${esc(CONTENT.founderBio) || 'Founder name, profile, and leadership story will be added here.'}</p></div>${image(CONTENT.founderImage, CONTENT.founderName || 'Founder portrait', 'Founder image')}`;
+      (tagline?.parentElement || about).appendChild(founderBlock);
+    }
+
+    // Preserve the requested service ordering and replace the key proof numbers.
+    const services = root.querySelector('#services');
+    if (services) {
+      const serviceCards = [...services.querySelectorAll('[class*="grid"] > *, article')];
+      serviceCards.forEach((card, index) => {
+        const number = card.querySelector('[class*="text-4xl"], [class*="text-5xl"], [class*="text-6xl"]');
+        if (number) number.textContent = String(index + 1).padStart(2, '0');
+      });
+    }
+    const aboutText = about?.textContent || '';
+    if (about && /12\+|constituenc/i.test(aboutText)) about.innerHTML = about.innerHTML.replace(/\d+\+\s*constituenc(?:ies|y)/i, '12+ constituencies');
+    if (about && /accuracy/i.test(aboutText)) about.innerHTML = about.innerHTML.replace(/\d+(?:\.\d+)?%\s*accuracy/i, '82.4% accuracy');
+
+    // Present sections in a deliberate narrative order after the original app sections.
+    const desired = ['hero', 'about', 'services', 'approach', 'portfolio', 'impact', 'founder', 'perspective', 'principle', 'certificates', 'gallery', 'contact-details'];
+    const nodes = desired.map((id) => root.querySelector(`#${id}`)).filter(Boolean);
+    nodes.forEach((node) => root.appendChild(node));
   }
 
   function init() { removeRequestedContent(); addLogoDots(); addSections(); }
