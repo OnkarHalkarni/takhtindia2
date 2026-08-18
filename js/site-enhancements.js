@@ -56,7 +56,7 @@
     const certificates = section('certificates', 'ACHIEVEMENTS', 'Great achievements', `<div class="ti-grid">${certs}</div>`);
     const gallerySection = section('gallery', 'FIELD NOTES', 'Campaign gallery', `<button class="ti-gallery-launch" type="button">Open gallery</button><div class="ti-gallery">${gallery}</div>`);
     const contact = section('contact-details', 'CONTACT', 'Start a conversation', `<div class="ti-contact"><div><p>${esc(CONTENT.contactPhone) || 'Phone information will be added here.'}</p><p>${esc(CONTENT.contactEmail) || 'Email information will be added here.'}</p><p>${esc(CONTENT.contactAddress) || 'Office information will be added here.'}</p></div><div class="ti-social"><a href="${esc(CONTENT.instagramUrl) || '#'}" aria-label="Instagram">Instagram</a><a href="${esc(CONTENT.facebookUrl) || '#'}" aria-label="Facebook">Facebook</a></div></div>`);
-    wrap.innerHTML = stats + founder + campaignSection + political + quote + certificates + gallerySection + contact; root.appendChild(wrap); updateExistingSections(root);
+    wrap.innerHTML = stats + campaignSection + political + quote + certificates + gallerySection + contact; root.appendChild(wrap); updateExistingSections(root);
     wrap.addEventListener('click', (event) => {
       const target = event.target.closest('[data-lightbox], .ti-gallery-launch, .ti-gallery-item'); if (!target) return;
       const modal = document.createElement('div'); modal.className = 'ti-lightbox';
