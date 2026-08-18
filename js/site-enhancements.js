@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const ASSET = (path) => `/assets/${path}`;
+  const ASSET = (path) => `/assets/${path.split('/').map((part) => encodeURIComponent(part)).join('/')}`;
   const CONTENT = {
     founderName: 'Tejas Nandrekar',
     founderBio: 'Founder, Takht India — political research and campaign consultancy focused on strategy, public image, and voter perception.',
@@ -18,7 +18,7 @@
       'Image.jpeg','Image (2).jpeg','Image (3).jpeg','Image (4).jpeg','Image (5).jpeg','Image (6).jpeg','Image (7).jpeg','Image (8).jpeg','Image (9).jpeg'
     ].map((file, index) => ({ image: ASSET(`work-gallery/Work Gallary/${file}`), title: `Takht India field work ${index + 1}` })),
     campaigns: [
-      ['Kadegaon campaign.jpeg', 'Kadegaon Campaign'], ['kadegaon campaign2.jpeg', 'Kadegaon Campaign'],
+      ['kadegaon campaign.jpeg', 'Kadegaon Campaign'], ['kadegaon campaign2.jpeg', 'Kadegaon Campaign'],
       ['Karad Campaign.jpeg', 'Karad Campaign'], ['Karad campaign (2).jpeg', 'Karad Campaign'],
       ['Sangli Municipal Campaign.jpeg', 'Sangli Municipal Campaign'], ['Sangli Municipal Campaign2.jpeg', 'Sangli Municipal Campaign'], ['Sangli Municipal Campaign3.jpeg', 'Sangli Municipal Campaign']
     ]
