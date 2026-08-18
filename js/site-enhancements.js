@@ -4,23 +4,23 @@
   const CONTENT = {
     founderName: 'Tejas Nandrekar',
     founderBio: 'Founder, Takht India — political research and campaign consultancy focused on strategy, public image, and voter perception.',
-    founderImage: ASSET('founder.png'),
-    politicalImage: ASSET('campaigns/campaign photo/Karad Campaign.jpeg'),
+    founderImage: '/images/founder.png',
+    politicalImage: '/images/karad-campaign.jpeg',
     politicalCaption: 'Political Image Development',
     quote: 'A politician thinks only about the next election, but a true leader thinks about the next generation and envisions the development of society and the nation. — Tejas Nandrekar',
     contactPhone: '+91 00000 00000', contactEmail: 'contact@takhtindia.in', contactAddress: 'Sangli, Maharashtra, India',
     instagramUrl: 'https://www.instagram.com/takhtindia', facebookUrl: 'https://www.facebook.com/takhtindia',
     certificates: [
-      { image: ASSET('certificate-merit.jpeg'), title: 'Certificate of Merit', issuer: 'Special Mention — Sansad Bharat MUN 2026, Shivaji University, Kolhapur. Awarded to Tejas Nandrekar, representing Ravi Rana, Independent.' },
-      { image: ASSET('certificate-participation.jpeg'), title: 'Certificate of Participation', issuer: 'Sansad Bharat MUN 2026, Shivaji University, Kolhapur — Tejas Vitthal Nandrekar, Sangli.' }
+      { image: '/images/certificate-merit.jpeg', title: 'Certificate of Merit', issuer: 'Special Mention — Sansad Bharat MUN 2026, Shivaji University, Kolhapur. Awarded to Tejas Nandrekar, representing Ravi Rana, Independent.' },
+      { image: '/images/certificate-participation.jpeg', title: 'Certificate of Participation', issuer: 'Sansad Bharat MUN 2026, Shivaji University, Kolhapur — Tejas Vitthal Nandrekar, Sangli.' }
     ],
     gallery: [
       'Image.jpeg','Image (2).jpeg','Image (3).jpeg','Image (4).jpeg','Image (5).jpeg','Image (6).jpeg','Image (7).jpeg','Image (8).jpeg','Image (9).jpeg'
-    ].map((file, index) => ({ image: ASSET(`work-gallery/Work Gallary/${file}`), title: `Takht India field work ${index + 1}` })),
+    ].map((file, index) => ({ image: `/images/gallery-${index + 1}.jpeg`, title: `Takht India field work ${index + 1}` })),
     campaigns: [
-      ['kadegaon campaign.jpeg', 'Kadegaon Campaign'], ['kadegaon campaign2.jpeg', 'Kadegaon Campaign'],
-      ['Karad Campaign.jpeg', 'Karad Campaign'], ['Karad campaign (2).jpeg', 'Karad Campaign'],
-      ['Sangli Municipal Campaign.jpeg', 'Sangli Municipal Campaign'], ['Sangli Municipal Campaign2.jpeg', 'Sangli Municipal Campaign'], ['Sangli Municipal Campaign3.jpeg', 'Sangli Municipal Campaign']
+      ['/images/kadegaon-campaign.jpeg', 'Kadegaon Campaign'], ['/images/kadegaon-campaign-2.jpeg', 'Kadegaon Campaign'],
+      ['/images/karad-campaign.jpeg', 'Karad Campaign'], ['/images/karad-campaign-2.jpeg', 'Karad Campaign'],
+      ['/images/sangli-campaign.jpeg', 'Sangli Municipal Campaign'], ['/images/sangli-campaign-2.jpeg', 'Sangli Municipal Campaign'], ['/images/sangli-campaign-3.jpeg', 'Sangli Municipal Campaign']
     ]
   };
   const esc = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -48,7 +48,7 @@
     const root = document.querySelector('main') || document.querySelector('#root'); if (!root) return;
     const wrap = document.createElement('div'); wrap.id = 'ti-enhancements';
     const stats = section('impact', 'THE RECORD', 'Built for decisions that matter', '<div class="ti-stats"><div><strong>12+</strong><span>Constituencies covered</span></div><div><strong>82.4%</strong><span>Research accuracy</span></div><div><strong>24/7</strong><span>War room readiness</span></div></div>');
-    const campaignSection = section('campaign-backgrounds', 'CAMPAIGN FIELDWORK', 'Campaigns on the ground', `<div class="ti-campaign-grid">${CONTENT.campaigns.map(([file, label]) => `<article style="background-image:url('${ASSET(`campaigns/campaign photo/${file}`)}')"><div><span>${esc(label)}</span><small>Strategy, outreach, and field intelligence</small></div></article>`).join('')}</div>`);
+    const campaignSection = section('campaign-backgrounds', 'CAMPAIGN FIELDWORK', 'Campaigns on the ground', `<div class="ti-campaign-grid">${CONTENT.campaigns.map(([file, label]) => `<article style="background-image:url('${file}')"><div><span>${esc(label)}</span><small>Strategy, outreach, and field intelligence</small></div></article>`).join('')}</div>`);
     const political = section('perspective', 'SERVICES', 'Political Image Development', `<div class="ti-perspective"><p>We help political leaders build a strong, authentic public image through strategic branding, media presence, and voter perception management.</p></div>`);
     const quote = section('principle', 'OUR PRINCIPLE', 'Clarity before noise', `<blockquote>A politician thinks only about the next election, but a true leader thinks about the next generation and envisions the development of society and the nation.<cite>Tejas Nandrekar</cite></blockquote>`);
     const certs = CONTENT.certificates.length ? CONTENT.certificates.map((item) => `<article class="ti-card">${image(item.image, item.title || 'Certificate', 'Certificate image')}<h3>${esc(item.title)}</h3><p>${esc(item.issuer)}</p></article>`).join('') : `<article class="ti-card">${placeholder('Achievement certificate 1')}</article><article class="ti-card">${placeholder('Achievement certificate 2')}</article>`;
