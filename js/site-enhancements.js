@@ -1,9 +1,27 @@
 (() => {
   'use strict';
+  const ASSET = (path) => `/assets/${path}`;
   const CONTENT = {
-    founderName: '', founderBio: '', founderImage: '', politicalImage: '', politicalCaption: '', quote: '',
-    contactPhone: '', contactEmail: '', contactAddress: '', instagramUrl: '', facebookUrl: '',
-    certificates: [], gallery: []
+    founderName: 'Tejas Nandrekar',
+    founderBio: 'Founder, Takht India — political research and campaign consultancy focused on strategy, public image, and voter perception.',
+    founderImage: ASSET('founder.png'),
+    politicalImage: ASSET('campaigns/campaign photo/Karad Campaign.jpeg'),
+    politicalCaption: 'Political Image Development',
+    quote: 'A politician thinks only about the next election, but a true leader thinks about the next generation and envisions the development of society and the nation. — Tejas Nandrekar',
+    contactPhone: '', contactEmail: '', contactAddress: '',
+    instagramUrl: 'https://www.instagram.com/takhtindia', facebookUrl: '#',
+    certificates: [
+      { image: ASSET('certificate-merit.jpeg'), title: 'Certificate of Merit', issuer: 'Special Mention — Sansad Bharat MUN 2026, Shivaji University, Kolhapur. Awarded to Tejas Nandrekar, representing Ravi Rana, Independent.' },
+      { image: ASSET('certificate-participation.jpeg'), title: 'Certificate of Participation', issuer: 'Sansad Bharat MUN 2026, Shivaji University, Kolhapur — Tejas Vitthal Nandrekar, Sangli.' }
+    ],
+    gallery: [
+      'Image.jpeg','Image (2).jpeg','Image (3).jpeg','Image (4).jpeg','Image (5).jpeg','Image (6).jpeg','Image (7).jpeg','Image (8).jpeg','Image (9).jpeg'
+    ].map((file, index) => ({ image: ASSET(`work-gallery/Work Gallary/${file}`), title: `Takht India field work ${index + 1}` })),
+    campaigns: [
+      ['Kadegaon campaign.jpeg', 'Kadegaon Campaign'], ['kadegaon campaign2.jpeg', 'Kadegaon Campaign'],
+      ['Karad Campaign.jpeg', 'Karad Campaign'], ['Karad campaign (2).jpeg', 'Karad Campaign'],
+      ['Sangli Municipal Campaign.jpeg', 'Sangli Municipal Campaign'], ['Sangli Municipal Campaign2.jpeg', 'Sangli Municipal Campaign'], ['Sangli Municipal Campaign3.jpeg', 'Sangli Municipal Campaign']
+    ]
   };
   const esc = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
   const placeholder = (label) => `<div class="ti-empty" role="img" aria-label="${esc(label)} placeholder"><span>${esc(label)}</span><small>Replace this placeholder later</small></div>`;
@@ -31,14 +49,15 @@
     const wrap = document.createElement('div'); wrap.id = 'ti-enhancements';
     const stats = section('impact', 'THE RECORD', 'Built for decisions that matter', '<div class="ti-stats"><div><strong>12+</strong><span>Constituencies covered</span></div><div><strong>82.4%</strong><span>Research accuracy</span></div><div><strong>24/7</strong><span>War room readiness</span></div></div>');
     const founder = section('founder', 'THE FOUNDER', CONTENT.founderName || 'Founder information', `<div class="ti-founder"><div class="ti-copy"><h3>${esc(CONTENT.founderName) || 'Founder name'}</h3><p>${esc(CONTENT.founderBio) || 'Founder biography and leadership story will be added here.'}</p></div></div>`);
-    const political = section('perspective', 'PERSPECTIVE', 'Political intelligence in focus', `<div class="ti-perspective"><div class="ti-media">${image(CONTENT.politicalImage, CONTENT.politicalCaption || 'Political person', 'Political person image')}</div><p>${esc(CONTENT.politicalCaption) || 'Political person image and context will be added here.'}</p></div>`);
+    const campaignSection = section('campaign-backgrounds', 'CAMPAIGN FIELDWORK', 'Campaigns on the ground', `<div class="ti-campaign-grid">${CONTENT.campaigns.map(([file, label]) => `<article style="background-image:url('${ASSET(`campaigns/campaign photo/${file}`)}')"><div><span>${esc(label)}</span><small>Strategy, outreach, and field intelligence</small></div></article>`).join('')}</div>`);
+    const political = section('perspective', 'SERVICES', 'Political Image Development', `<div class="ti-perspective"><div class="ti-media">${image(CONTENT.politicalImage, CONTENT.politicalCaption, 'Political person image')}</div><p>We help political leaders build a strong, authentic public image through strategic branding, media presence, and voter perception management.</p></div>`);
     const quote = section('principle', 'OUR PRINCIPLE', 'Clarity before noise', `<blockquote>${esc(CONTENT.quote) || 'A grounded plan, a clear point of view, and the discipline to see it through.'}</blockquote>`);
     const certs = CONTENT.certificates.length ? CONTENT.certificates.map((item) => `<article class="ti-card">${image(item.image, item.title || 'Certificate', 'Certificate image')}<h3>${esc(item.title)}</h3><p>${esc(item.issuer)}</p></article>`).join('') : `<article class="ti-card">${placeholder('Achievement certificate 1')}</article><article class="ti-card">${placeholder('Achievement certificate 2')}</article>`;
     const gallery = CONTENT.gallery.length ? CONTENT.gallery.map((item, index) => `<button class="ti-gallery-item" type="button" data-lightbox="${esc(item.image)}" data-gallery-index="${index}" aria-label="Open ${esc(item.title || 'gallery image')}">${image(item.image, item.title || 'Gallery image', 'Gallery image')}<span>${esc(item.title)}</span></button>`).join('') : Array.from({ length: 9 }, (_, index) => `<button class="ti-gallery-item" type="button" data-gallery-index="${index}" aria-label="Open gallery image ${index + 1}">${placeholder(`Gallery image ${index + 1}`)}</button>`).join('');
     const certificates = section('certificates', 'ACHIEVEMENTS', 'Great achievements', `<div class="ti-grid">${certs}</div>`);
     const gallerySection = section('gallery', 'FIELD NOTES', 'Campaign gallery', `<button class="ti-gallery-launch" type="button">Open gallery</button><div class="ti-gallery">${gallery}</div>`);
     const contact = section('contact-details', 'CONTACT', 'Start a conversation', `<div class="ti-contact"><div><p>${esc(CONTENT.contactPhone) || 'Phone information will be added here.'}</p><p>${esc(CONTENT.contactEmail) || 'Email information will be added here.'}</p><p>${esc(CONTENT.contactAddress) || 'Office information will be added here.'}</p></div><div class="ti-social"><a href="${esc(CONTENT.instagramUrl) || '#'}" aria-label="Instagram">Instagram</a><a href="${esc(CONTENT.facebookUrl) || '#'}" aria-label="Facebook">Facebook</a></div></div>`);
-    wrap.innerHTML = stats + founder + political + quote + certificates + gallerySection + contact; root.appendChild(wrap); updateExistingSections(root);
+    wrap.innerHTML = stats + founder + campaignSection + political + quote + certificates + gallerySection + contact; root.appendChild(wrap); updateExistingSections(root);
     wrap.addEventListener('click', (event) => {
       const target = event.target.closest('[data-lightbox], .ti-gallery-launch, .ti-gallery-item'); if (!target) return;
       const modal = document.createElement('div'); modal.className = 'ti-lightbox';
@@ -70,7 +89,7 @@
       const cards = [...services.querySelectorAll('article, [class*="grid"] > *')];
       cards.sort((a, b) => { const ai = order.findIndex((name) => (a.textContent || '').toLowerCase().includes(name.toLowerCase())); const bi = order.findIndex((name) => (b.textContent || '').toLowerCase().includes(name.toLowerCase())); return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi); }).forEach((card) => card.parentElement?.appendChild(card));
     }
-    const desired = ['hero', 'about', 'services', 'approach', 'portfolio', 'impact', 'founder', 'perspective', 'principle', 'certificates', 'gallery', 'contact-details'];
+    const desired = ['hero', 'about', 'campaign-backgrounds', 'services', 'approach', 'portfolio', 'impact', 'founder', 'perspective', 'principle', 'certificates', 'gallery', 'contact-details'];
     desired.map((id) => root.querySelector(`#${id}`)).filter(Boolean).forEach((node) => root.appendChild(node));
   }
   function init() { const root = document.querySelector('main') || document.querySelector('#root'); if (!root || !root.children.length) return false; removeRequestedContent(); addLogoDots(); addSections(); return Boolean(document.querySelector('#ti-enhancements')); }
