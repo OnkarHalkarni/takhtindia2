@@ -8,8 +8,8 @@
     politicalImage: ASSET('campaigns/campaign photo/Karad Campaign.jpeg'),
     politicalCaption: 'Political Image Development',
     quote: 'A politician thinks only about the next election, but a true leader thinks about the next generation and envisions the development of society and the nation. — Tejas Nandrekar',
-    contactPhone: '', contactEmail: '', contactAddress: '',
-    instagramUrl: 'https://www.instagram.com/takhtindia', facebookUrl: '#',
+    contactPhone: '+91 00000 00000', contactEmail: 'contact@takhtindia.in', contactAddress: 'Sangli, Maharashtra, India',
+    instagramUrl: 'https://www.instagram.com/takhtindia', facebookUrl: 'https://www.facebook.com/takhtindia',
     certificates: [
       { image: ASSET('certificate-merit.jpeg'), title: 'Certificate of Merit', issuer: 'Special Mention — Sansad Bharat MUN 2026, Shivaji University, Kolhapur. Awarded to Tejas Nandrekar, representing Ravi Rana, Independent.' },
       { image: ASSET('certificate-participation.jpeg'), title: 'Certificate of Participation', issuer: 'Sansad Bharat MUN 2026, Shivaji University, Kolhapur — Tejas Vitthal Nandrekar, Sangli.' }
@@ -29,12 +29,12 @@
   const section = (id, eyebrow, title, content) => `<section id="${id}" class="ti-section"><div class="ti-shell"><p class="ti-eyebrow">${eyebrow}</p><h2>${title}</h2>${content}</div></section>`;
 
   function addLogoDots() {
-    document.querySelectorAll('[data-testid="nav-logo"], header a, header button, nav a, nav button').forEach((link) => {
-      if (link.querySelector('.ti-logo-dots')) return;
-      const dots = document.createElement('span');
-      dots.className = 'ti-logo-dots'; dots.setAttribute('aria-label', 'Indian tricolor');
-      dots.innerHTML = '<i class="saffron"></i><i class="white"></i><i class="green"></i>'; link.appendChild(dots);
-    });
+    document.querySelectorAll('.ti-logo-dots').forEach((dots) => dots.remove());
+    const logo = document.querySelector('[data-testid="nav-logo"]') || [...document.querySelectorAll('header a, nav a, header button, nav button')].find((link) => /takht\s*india/i.test(link.textContent || ''));
+    if (!logo) return;
+    const dots = document.createElement('span');
+    dots.className = 'ti-logo-dots'; dots.setAttribute('aria-label', 'Indian tricolor');
+    dots.innerHTML = '<i class="saffron"></i><i class="white"></i><i class="green"></i>'; logo.appendChild(dots);
   }
   function removeRequestedContent() {
     document.querySelectorAll('form').forEach((form) => form.remove());
@@ -48,10 +48,9 @@
     const root = document.querySelector('main') || document.querySelector('#root'); if (!root) return;
     const wrap = document.createElement('div'); wrap.id = 'ti-enhancements';
     const stats = section('impact', 'THE RECORD', 'Built for decisions that matter', '<div class="ti-stats"><div><strong>12+</strong><span>Constituencies covered</span></div><div><strong>82.4%</strong><span>Research accuracy</span></div><div><strong>24/7</strong><span>War room readiness</span></div></div>');
-    const founder = section('founder', 'THE FOUNDER', CONTENT.founderName || 'Founder information', `<div class="ti-founder"><div class="ti-copy"><h3>${esc(CONTENT.founderName) || 'Founder name'}</h3><p>${esc(CONTENT.founderBio) || 'Founder biography and leadership story will be added here.'}</p></div></div>`);
     const campaignSection = section('campaign-backgrounds', 'CAMPAIGN FIELDWORK', 'Campaigns on the ground', `<div class="ti-campaign-grid">${CONTENT.campaigns.map(([file, label]) => `<article style="background-image:url('${ASSET(`campaigns/campaign photo/${file}`)}')"><div><span>${esc(label)}</span><small>Strategy, outreach, and field intelligence</small></div></article>`).join('')}</div>`);
-    const political = section('perspective', 'SERVICES', 'Political Image Development', `<div class="ti-perspective"><div class="ti-media">${image(CONTENT.politicalImage, CONTENT.politicalCaption, 'Political person image')}</div><p>We help political leaders build a strong, authentic public image through strategic branding, media presence, and voter perception management.</p></div>`);
-    const quote = section('principle', 'OUR PRINCIPLE', 'Clarity before noise', `<blockquote>${esc(CONTENT.quote) || 'A grounded plan, a clear point of view, and the discipline to see it through.'}</blockquote>`);
+    const political = section('perspective', 'SERVICES', 'Political Image Development', `<div class="ti-perspective"><p>We help political leaders build a strong, authentic public image through strategic branding, media presence, and voter perception management.</p></div>`);
+    const quote = section('principle', 'OUR PRINCIPLE', 'Clarity before noise', `<blockquote>A politician thinks only about the next election, but a true leader thinks about the next generation and envisions the development of society and the nation.<cite>Tejas Nandrekar</cite></blockquote>`);
     const certs = CONTENT.certificates.length ? CONTENT.certificates.map((item) => `<article class="ti-card">${image(item.image, item.title || 'Certificate', 'Certificate image')}<h3>${esc(item.title)}</h3><p>${esc(item.issuer)}</p></article>`).join('') : `<article class="ti-card">${placeholder('Achievement certificate 1')}</article><article class="ti-card">${placeholder('Achievement certificate 2')}</article>`;
     const gallery = CONTENT.gallery.length ? CONTENT.gallery.map((item, index) => `<button class="ti-gallery-item" type="button" data-lightbox="${esc(item.image)}" data-gallery-index="${index}" aria-label="Open ${esc(item.title || 'gallery image')}">${image(item.image, item.title || 'Gallery image', 'Gallery image')}<span>${esc(item.title)}</span></button>`).join('') : Array.from({ length: 9 }, (_, index) => `<button class="ti-gallery-item" type="button" data-gallery-index="${index}" aria-label="Open gallery image ${index + 1}">${placeholder(`Gallery image ${index + 1}`)}</button>`).join('');
     const certificates = section('certificates', 'ACHIEVEMENTS', 'Great achievements', `<div class="ti-grid">${certs}</div>`);
@@ -85,11 +84,16 @@
     }
     const services = root.querySelector('#services');
     if (services) {
+      const serviceCardsExisting = [...services.querySelectorAll('article, [class*="grid"] > *')];
+      const second = serviceCardsExisting[1];
+      if (second && !second.querySelector('.ti-service-image')) {
+        second.insertAdjacentHTML('beforeend', `<img class="ti-service-image" src="${CONTENT.politicalImage}" alt="Political Image Development campaign work" loading="lazy">`);
+      }
       const order = ['Strategy', 'War Room', 'Campaign', 'Social Media', 'Election Survey', 'Documentary'];
       const cards = [...services.querySelectorAll('article, [class*="grid"] > *')];
       cards.sort((a, b) => { const ai = order.findIndex((name) => (a.textContent || '').toLowerCase().includes(name.toLowerCase())); const bi = order.findIndex((name) => (b.textContent || '').toLowerCase().includes(name.toLowerCase())); return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi); }).forEach((card) => card.parentElement?.appendChild(card));
     }
-    const desired = ['hero', 'about', 'campaign-backgrounds', 'services', 'approach', 'portfolio', 'impact', 'founder', 'perspective', 'principle', 'certificates', 'gallery', 'contact-details'];
+    const desired = ['hero', 'about', 'campaign-backgrounds', 'services', 'approach', 'portfolio', 'impact', 'perspective', 'principle', 'certificates', 'gallery', 'contact-details'];
     desired.map((id) => root.querySelector(`#${id}`)).filter(Boolean).forEach((node) => root.appendChild(node));
   }
   function init() { const root = document.querySelector('main') || document.querySelector('#root'); if (!root || !root.children.length) return false; removeRequestedContent(); addLogoDots(); addSections(); return Boolean(document.querySelector('#ti-enhancements')); }
