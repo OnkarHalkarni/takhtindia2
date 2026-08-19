@@ -53,7 +53,7 @@
     const certs = CONTENT.certificates.length ? CONTENT.certificates.map((item) => `<article class="ti-card ti-clickable-image" data-lightbox="${esc(item.image)}" tabindex="0" role="button" aria-label="Open ${esc(item.title)}">${image(item.image, item.title || 'Certificate', 'Certificate image')}<h3>${esc(item.title)}</h3><p>${esc(item.issuer)}</p></article>`).join('') : `<article class="ti-card">${placeholder('Achievement certificate 1')}</article><article class="ti-card">${placeholder('Achievement certificate 2')}</article>`;
     const gallery = CONTENT.gallery.length ? CONTENT.gallery.map((item, index) => `<button class="ti-gallery-item" type="button" data-lightbox="${esc(item.image)}" data-gallery-index="${index}" aria-label="Open Work Gallery image ${index + 1}">${image(item.image, 'Work Gallery image', 'Gallery image')}</button>`).join('') : Array.from({ length: 9 }, (_, index) => `<button class="ti-gallery-item" type="button" data-gallery-index="${index}" aria-label="Open gallery image ${index + 1}">${placeholder(`Gallery image ${index + 1}`)}</button>`).join('');
     const certificates = section('certificates', 'ACHIEVEMENTS', 'Great achievements', `<div class="ti-grid">${certs}</div>`);
-    const gallerySection = section('gallery', 'FIELD NOTES', 'Campaign gallery', `<button class="ti-gallery-launch" type="button">Open gallery</button><div class="ti-gallery">${gallery}</div>`);
+    const gallerySection = section('gallery', 'FIELD NOTES', 'Campaign gallery', `<div class="ti-gallery">${gallery}</div>`);
     const contact = section('contact-details', 'CONTACT', 'Start a conversation', `<div class="ti-contact"><div><p>${esc(CONTENT.contactPhone) || 'Phone information will be added here.'}</p><p>${esc(CONTENT.contactEmail) || 'Email information will be added here.'}</p><p>${esc(CONTENT.contactAddress) || 'Office information will be added here.'}</p></div><div class="ti-social"><a href="${esc(CONTENT.instagramUrl) || '#'}" aria-label="Instagram" target="_blank" rel="noreferrer"><span class="ti-social-icon ti-instagram">◎</span><span>Instagram</span></a><a href="${esc(CONTENT.facebookUrl) || '#'}" aria-label="Facebook" target="_blank" rel="noreferrer"><span class="ti-social-icon ti-facebook">f</span><span>Facebook</span></a></div></div>`);
     wrap.innerHTML = stats + campaignSection + political + certificates + gallerySection + contact; root.appendChild(wrap); updateExistingSections(root);
     wrap.addEventListener('click', (event) => {
@@ -71,6 +71,9 @@
       const founderBlock = document.createElement('div'); founderBlock.className = 'ti-about-founder';
       founderBlock.innerHTML = `<div><p class="ti-eyebrow">THE FOUNDER</p><h3>${esc(CONTENT.founderName)}</h3><p class="ti-qualifications">${esc(CONTENT.founderBio)}</p><p>${esc(CONTENT.founderStory)}</p><blockquote class="ti-founder-quote">${esc(CONTENT.founderQuote)}</blockquote></div>${image(CONTENT.founderImage, CONTENT.founderName, 'Founder image')}`;
       about.appendChild(founderBlock);
+      const quoteBlock = document.createElement('div'); quoteBlock.className = 'ti-about-quote';
+      quoteBlock.innerHTML = `<p class="ti-eyebrow">A WORD FROM OUR FOUNDER</p><blockquote>“A politician thinks only about the next election, but a true leader thinks about the next generation and envisions the development of society and the nation.”<cite>Tejas Nandrekar</cite></blockquote>`;
+      about.appendChild(quoteBlock);
     }
     root.querySelectorAll('*').forEach((node) => {
       if (node.children.length === 0 && /288\+/.test(node.textContent || '')) node.textContent = '12+';
@@ -108,7 +111,23 @@
     const desired = ['hero', 'about', 'campaign-backgrounds', 'services', 'approach', 'portfolio', 'impact', 'perspective', 'certificates', 'gallery', 'contact-details'];
     desired.map((id) => root.querySelector(`#${id}`)).filter(Boolean).forEach((node) => root.appendChild(node));
   }
-  function init() { const root = document.querySelector('main') || document.querySelector('#root'); if (!root || !root.children.length) return false; removeRequestedContent(); addLogoDots(); addSections(); return Boolean(document.querySelector('#ti-enhancements')); }
+  function bindFullImageLightbox() {
+    if (document.body.dataset.tiLightboxBound) return;
+    document.body.dataset.tiLightboxBound = 'true';
+    document.addEventListener('click', (event) => {
+      const target = event.target.closest('img, [data-lightbox]');
+      if (!target || target.closest('.ti-lightbox')) return;
+      const src = target.dataset.lightbox || target.currentSrc || target.src;
+      if (!src || src.startsWith('data:')) return;
+      event.preventDefault();
+      const modal = document.createElement('div'); modal.className = 'ti-lightbox';
+      modal.innerHTML = `<button type="button" aria-label="Close image">Close</button><img src="${esc(src)}" alt="${esc(target.alt || 'Takht India image')}">`;
+      document.body.appendChild(modal);
+      modal.addEventListener('click', (click) => { if (click.target === modal || click.target.closest('button')) modal.remove(); });
+    });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') document.querySelector('.ti-lightbox')?.remove(); });
+  }
+  function init() { const root = document.querySelector('main') || document.querySelector('#root'); if (!root || !root.children.length) return false; removeRequestedContent(); addLogoDots(); addSections(); bindFullImageLightbox(); return Boolean(document.querySelector('#ti-enhancements')); }
   let attempts = 0; const observer = new MutationObserver(() => { if (init() || attempts > 30) observer.disconnect(); }); observer.observe(document.body, { childList: true, subtree: true });
   const retry = window.setInterval(() => { attempts += 1; if (init() || attempts > 30) window.clearInterval(retry); }, 300);
 })();
