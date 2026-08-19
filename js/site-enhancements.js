@@ -6,7 +6,7 @@
     founderBio: 'Master in Arts, Masters in Social Work (Urban Rural & Community Development)',
     founderStory: 'Driven by a passion for societal progress, our founder, Tejas Sharda Vitthal Nandrekar, envisioned Takht India as a catalyst for informed governance. Witnessing the disconnect between policy intentions and on-the-ground realities fueled a commitment to provide data-backed strategies that truly serve the nation’s next generation. This vision is the bedrock of our work.',
     founderQuote: 'Takht India was founded to bridge the gap between politics and data-driven decision-making. To provide accurate ground-level research, voter insights and strategic analysis to political leaders. To build smarter, more informed and result-oriented political campaigns.',
-    founderImage: '/images/founder-new.jpeg',
+    founderImage: '/images/founder-final.jpeg',
     politicalImage: '/images/karad-campaign.jpeg',
     politicalCaption: 'Political Image Development',
     quote: 'A politician thinks only about the next election, but a true leader thinks about the next generation and envisions the development of society and the nation. — Tejas Nandrekar',
