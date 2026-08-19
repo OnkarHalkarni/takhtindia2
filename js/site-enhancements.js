@@ -16,7 +16,13 @@
       { image: '/images/certificate-merit.jpeg', title: 'Certificate of Merit', issuer: 'Special Mention — Sansad Bharat MUN 2026, Shivaji University, Kolhapur. Awarded to Tejas Nandrekar, representing Ravi Rana, Independent.' },
       { image: '/images/certificate-participation.jpeg', title: 'Certificate of Participation', issuer: 'Sansad Bharat MUN 2026, Shivaji University, Kolhapur — Tejas Vitthal Nandrekar, Sangli.' }
     ],
-    gallery: [1, 2, 3, 4, 5, 6].map((index) => ({ image: `/images/gallery-${index}.jpeg`, title: 'Work Gallery' })),
+    gallery: [
+      ...[1, 2, 3, 4, 5, 6].map((index) => ({ image: `/images/gallery-${index}.jpeg`, title: `Work Gallery ${index}` })),
+      { image: '/images/campaign-preference-1.jpeg', title: 'Campaign Gallery 7' },
+      { image: '/images/campaign-preference-2.jpeg', title: 'Campaign Gallery 8' },
+      { image: '/images/campaign-preference-3.jpeg', title: 'Campaign Gallery 9' },
+      { image: '/images/campaign-preference-4.jpeg', title: 'Campaign Gallery 10' }
+    ],
     campaigns: [
       ['/images/kadegaon-campaign.jpeg', 'Kadegaon Campaign'], ['/images/kadegaon-campaign-2.jpeg', 'Kadegaon Campaign'],
       ['/images/karad-campaign.jpeg', 'Karad Campaign'], ['/images/karad-campaign-2.jpeg', 'Karad Campaign'],
