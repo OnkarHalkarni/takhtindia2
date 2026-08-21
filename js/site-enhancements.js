@@ -17,11 +17,11 @@
       { image: '/images/certificate-participation.jpeg', title: 'Certificate of Participation', issuer: 'Sansad Bharat MUN 2026, Shivaji University, Kolhapur — Tejas Vitthal Nandrekar, Sangli.' }
     ],
     gallery: [
+      { image: '/images/campaign-preference-4.jpeg', title: 'Campaign Gallery 10' },
+      { image: '/images/campaign-preference-2.jpeg', title: 'Campaign Gallery 8' },
       ...[1, 2, 3, 4, 5, 6].map((index) => ({ image: `/images/gallery-${index}.jpeg`, title: `Work Gallery ${index}` })),
       { image: '/images/campaign-preference-1.jpeg', title: 'Campaign Gallery 7' },
-      { image: '/images/campaign-preference-2.jpeg', title: 'Campaign Gallery 8' },
-      { image: '/images/campaign-preference-3.jpeg', title: 'Campaign Gallery 9' },
-      { image: '/images/campaign-preference-4.jpeg', title: 'Campaign Gallery 10' }
+      { image: '/images/campaign-preference-3.jpeg', title: 'Campaign Gallery 9' }
     ],
     campaigns: [
       ['/images/kadegaon-campaign.jpeg', 'Kadegaon Campaign'], ['/images/kadegaon-campaign-2.jpeg', 'Kadegaon Campaign'],
